@@ -209,6 +209,15 @@ func (s *Store) StatusCounts(ctx context.Context) (map[string]int, error) {
 	return counts, rows.Err()
 }
 
+func (s *Store) FailedCallbackCount(ctx context.Context) (int, error) {
+	var count int
+	err := s.pool.QueryRow(ctx, `
+		SELECT COALESCE(sum(retry_count), 0)
+		FROM jobs
+	`).Scan(&count)
+	return count, err
+}
+
 func scanJob(row pgx.Row) (job.Job, error) {
 	var saved job.Job
 	var payload []byte

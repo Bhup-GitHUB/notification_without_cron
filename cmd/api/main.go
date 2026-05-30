@@ -119,7 +119,12 @@ func (s server) metrics(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusInternalServerError, "could not load metrics")
 		return
 	}
-	counts["failed_callback_count"] = counts[job.StatusRetryScheduled] + counts[job.StatusDLQ]
+	failedCallbacks, err := s.store.FailedCallbackCount(r.Context())
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, "could not load metrics")
+		return
+	}
+	counts["failed_callback_count"] = failedCallbacks
 	writeJSON(w, counts)
 }
 
