@@ -40,9 +40,9 @@ docker compose up --build
 
 Useful endpoints:
 
-- API health: `http://localhost:8080/health`
-- API metrics: `http://localhost:8080/metrics`
-- Callback health: `http://localhost:8082/health`
+- API health: `http://localhost:18080/health`
+- API metrics: `http://localhost:18080/metrics`
+- Callback health: `http://localhost:18082/health`
 - RabbitMQ UI: `http://localhost:15672`
 
 RabbitMQ credentials are `guest` / `guest`.
@@ -50,7 +50,7 @@ RabbitMQ credentials are `guest` / `guest`.
 ## Schedule A Successful Job
 
 ```bash
-curl -s -X POST http://localhost:8080/jobs \
+curl -s -X POST http://localhost:18080/jobs \
   -H "Content-Type: application/json" \
   -d '{
     "callback_url": "http://callback-service:8082/callback",
@@ -65,9 +65,9 @@ For an immediate demo, set `execute_at` to the current UTC time or a few seconds
 Inspect jobs:
 
 ```bash
-curl -s http://localhost:8080/jobs
-curl -s http://localhost:8080/jobs?status=completed
-curl -s http://localhost:8080/metrics
+curl -s http://localhost:18080/jobs
+curl -s http://localhost:18080/jobs?status=completed
+curl -s http://localhost:18080/metrics
 ```
 
 ## Schedule A Retry Job
@@ -75,7 +75,7 @@ curl -s http://localhost:8080/metrics
 This payload fails once, then succeeds on the next callback attempt.
 
 ```bash
-curl -s -X POST http://localhost:8080/jobs \
+curl -s -X POST http://localhost:18080/jobs \
   -H "Content-Type: application/json" \
   -d '{
     "callback_url": "http://callback-service:8082/callback",
@@ -90,7 +90,7 @@ curl -s -X POST http://localhost:8080/jobs \
 This payload always fails and moves to DLQ after max retries.
 
 ```bash
-curl -s -X POST http://localhost:8080/jobs \
+curl -s -X POST http://localhost:18080/jobs \
   -H "Content-Type: application/json" \
   -d '{
     "callback_url": "http://callback-service:8082/callback",

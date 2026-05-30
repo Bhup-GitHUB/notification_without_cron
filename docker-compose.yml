@@ -38,7 +38,7 @@ services:
       PARTITION_COUNT: "16"
       MAX_RETRIES: "3"
     ports:
-      - "8080:8080"
+      - "18080:8080"
     depends_on:
       postgres:
         condition: service_healthy
@@ -94,7 +94,7 @@ services:
     environment:
       HTTP_ADDR: ":8082"
     ports:
-      - "8082:8082"
+      - "18082:8082"
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:8082/health"]
       interval: 5s
